@@ -2,18 +2,30 @@ import request from '@/utils/request'
 
 export function fetchList(query) {
   var params = {
-    page: query.page - 1,
+    page: query.page,
     per_page: query.limit
   }
-  if (query.create_time_range && query.create_time_range.length) {
-    params.create_time_range = query.create_time_range
+  if (query.date_range && query.date_range.length) {
+    params.begin_date = query.date_range[0]
+    params.end_date = query.date_range[1]
   }
-  if (query.username !== '') {
-    params.username = query.username
+  if (query.name !== '') {
+    params.name = query.name
+  }
+  if (query.sex !== '') {
+    params.sex = query.sex
   }
   return request({
-    url: '/admin/v1/orders',
+    url: '/admin/list',
     method: 'get',
     params
+  })
+}
+
+export function editDate(data) {
+  return request({
+    url: '/admin/edit_apply',
+    method: 'post',
+    data: data
   })
 }

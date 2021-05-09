@@ -3,12 +3,21 @@
     <el-form ref="filterForm" :model="filterForm" :inline="true" class="filter-form">
       <el-form-item prop="create_time_range">
         <el-date-picker
-          v-model="filterForm.apply_time_range"
+          v-model="filterForm.date_range"
           type="daterange"
           value-format="yyyy-MM-dd HH:mm:ss"
           start-placeholder="预约开始日期"
           end-placeholder="预约结束日期"
         />
+      </el-form-item>
+      <el-form-item prop="name">
+        <el-input v-model="filterForm.name" placeholder="学生姓名" style="width:120px" />
+      </el-form-item>
+      <el-form-item prop="sex">
+        <el-select v-model="filterForm.sex" placeholder="性别" style="width:80px">
+          <el-option label="男" :value="1" />
+          <el-option label="女" :value="2" />
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
@@ -96,12 +105,13 @@ export default {
       downloadLoading: false,
       filename: '',
       filterForm: {
-        apply_time_range: [],
-        username: ''
+        date_range: [],
+        name: '',
+        sex: ''
       },
       listQuery: {
         page: 1,
-        limit: 10
+        limit: 20
       }
     }
   },
@@ -122,8 +132,14 @@ export default {
         page: 1,
         limit: 20
       }
-      if (this.filterForm.apply_time_range && this.filterForm.apply_time_range.length) {
-        this.listQuery.apply_time_range = this.filterForm.apply_time_range
+      if (this.filterForm.date_range && this.filterForm.date_range.length) {
+        this.listQuery.date_range = this.filterForm.date_range
+      }
+      if (this.filterForm.name !== '') {
+        this.listQuery.name = this.filterForm.name
+      }
+      if (this.filterForm.sex !== '') {
+        this.listQuery.sex = this.filterForm.sex
       }
       this.fetchData()
     },

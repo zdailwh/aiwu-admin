@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/user'
+import { getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
@@ -43,14 +43,22 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(data => {
-        commit('SET_ISADMIN', data.user.isadmin)
-        commit('SET_TOKEN', JSON.stringify(data.user))
-        setToken(JSON.stringify(data.user))
+      if (username === 'admin' && password === '111111') {
+        commit('SET_ISADMIN', true)
+        commit('SET_TOKEN', username)
+        setToken(username)
         resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      } else {
+        reject('用户名密码错误')
+      }
+      // login({ username: username.trim(), password: password }).then(data => {
+      //   commit('SET_ISADMIN', data.user.isadmin)
+      //   commit('SET_TOKEN', JSON.stringify(data.user))
+      //   setToken(JSON.stringify(data.user))
+      //   resolve()
+      // }).catch(error => {
+      //   reject(error)
+      // })
     })
   },
 
@@ -85,20 +93,30 @@ const actions = {
   // user logout
   logout({ commit, state, dispatch }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        commit('SET_TOKEN', '')
-        commit('SET_ROLES', [])
-        removeToken()
-        resetRouter()
+      commit('SET_TOKEN', '')
+      commit('SET_ROLES', [])
+      removeToken()
+      resetRouter()
 
-        // reset visited views and cached views
-        // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
-        dispatch('tagsView/delAllViews', null, { root: true })
+      // reset visited views and cached views
+      // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
+      dispatch('tagsView/delAllViews', null, { root: true })
 
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      resolve()
+      // logout(state.token).then(() => {
+      //   commit('SET_TOKEN', '')
+      //   commit('SET_ROLES', [])
+      //   removeToken()
+      //   resetRouter()
+
+      //   // reset visited views and cached views
+      //   // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
+      //   dispatch('tagsView/delAllViews', null, { root: true })
+
+      //   resolve()
+      // }).catch(error => {
+      //   reject(error)
+      // })
     })
   },
 
