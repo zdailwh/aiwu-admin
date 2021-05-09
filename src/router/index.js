@@ -72,18 +72,48 @@ export const constantRoutes = [
   },
   {
     path: '/',
-    redirect: '/admin/index'
+    redirect: '/order/index'
   },
+  // {
+  //   path: '/admin',
+  //   component: Layout,
+  //   redirect: '/admin/index',
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/admin/index'),
+  //       name: 'AdminList',
+  //       meta: { title: '用户管理', icon: 'peoples' }
+  //     }
+  //   ]
+  // },
   {
-    path: '/admin',
+    path: '/order',
     component: Layout,
-    redirect: '/admin/index',
+    redirect: '/order/index',
+    name: 'Order',
+    meta: { title: '预约记录', icon: 'el-icon-s-order' },
     children: [
       {
         path: 'index',
-        component: () => import('@/views/admin/index'),
-        name: 'AdminList',
-        meta: { title: '用户管理', icon: 'peoples' }
+        component: () => import('@/views/order/index'),
+        name: 'OrderList',
+        meta: { title: '预约记录', icon: 'el-icon-s-order' }
+      }
+    ]
+  },
+  {
+    path: '/setting',
+    component: Layout,
+    redirect: '/setting/index',
+    name: 'Setting',
+    meta: { title: '配置', icon: 'el-icon-set-up' },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/setting/index'),
+        name: 'SettingIndex',
+        meta: { title: '放号配置', icon: 'el-icon-set-up' }
       }
     ]
   }
