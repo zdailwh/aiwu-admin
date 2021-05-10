@@ -29,3 +29,18 @@ export function editDate(data) {
     data: data
   })
 }
+
+export function fetchSettingList(query) {
+  var params = {
+    page: query.page,
+    per_page: query.limit
+  }
+  if (query.date !== '') {
+    params.date = query.date
+  }
+  return request({
+    url: '/admin/setting_list',
+    method: 'get',
+    params
+  })
+}

@@ -110,10 +110,16 @@ export const constantRoutes = [
     meta: { title: '配置', icon: 'el-icon-set-up' },
     children: [
       {
+        path: 'add',
+        component: () => import('@/views/setting/add'),
+        name: 'SettingAdd',
+        meta: { title: '放号配置', icon: 'el-icon-set-up' }
+      },
+      {
         path: 'index',
         component: () => import('@/views/setting/index'),
         name: 'SettingIndex',
-        meta: { title: '放号配置', icon: 'el-icon-set-up' }
+        meta: { title: '配置记录', icon: 'el-icon-s-order' }
       }
     ]
   }
