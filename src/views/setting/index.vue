@@ -35,7 +35,7 @@
           {{ scope.row.nums }}
         </template>
       </el-table-column>
-      <el-table-column label="已预约数" align="center" width="100">
+      <el-table-column label="剩余号数" align="center" width="100">
         <template slot-scope="scope">
           {{ scope.row.useful_nums }}
         </template>

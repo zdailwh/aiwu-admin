@@ -19,7 +19,7 @@ service.interceptors.request.use(
       // let each request carry token
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
-      config.headers['X-Token'] = JSON.parse(getToken()).id
+      config.headers['X-Token'] = getToken()
     }
     return config
   },
@@ -74,21 +74,22 @@ service.interceptors.response.use(
   },
   error => {
     // console.log(error.response) // for debug
-    if (error.response.status === 401) {
-      store.dispatch('user/resetToken').then(() => {
-        location.reload()
-      })
-    } else {
-      if (error.response.config.url === '/api/admin/programme/v1/programmes' && error.response.config.method === 'post') {
-        console.log('上传文件出错')
-      } else {
-        Message({
-          message: error.response.data,
-          type: 'error',
-          duration: 5 * 1000
-        })
-      }
-    }
+    // if (error.response.status === 401) {
+    //   store.dispatch('user/resetToken').then(() => {
+    //     location.reload()
+    //   })
+    // } else {
+    //   Message({
+    //     message: error.response.data,
+    //     type: 'error',
+    //     duration: 5 * 1000
+    //   })
+    // }
+    Message({
+      message: error.response.data,
+      type: 'error',
+      duration: 5 * 1000
+    })
     return Promise.reject(error)
   }
 )
