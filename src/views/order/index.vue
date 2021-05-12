@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form ref="filterForm" :model="filterForm" :inline="true" class="filter-form">
-      <el-form-item prop="create_time_range">
+      <el-form-item prop="date_range">
         <el-date-picker
           v-model="filterForm.date_range"
           type="daterange"
@@ -11,10 +11,10 @@
         />
       </el-form-item>
       <el-form-item prop="name">
-        <el-input v-model="filterForm.name" placeholder="学生姓名" style="width:120px" />
+        <el-input v-model="filterForm.name" :clearable="true" placeholder="学生姓名" style="width:120px" />
       </el-form-item>
       <el-form-item prop="sex">
-        <el-select v-model="filterForm.sex" placeholder="性别" style="width:80px">
+        <el-select v-model="filterForm.sex" :clearable="true" placeholder="性别" style="width:80px">
           <el-option label="男" :value="1" />
           <el-option label="女" :value="2" />
         </el-select>
@@ -24,13 +24,13 @@
           搜索
         </el-button>
       </el-form-item>
-      <!-- <el-form-item>
+      <el-form-item>
         <el-button @click="resetForm('filterForm')">重置</el-button>
-      </el-form-item> -->
+      </el-form-item>
     </el-form>
 
     <div>
-      <el-input v-model="filename" placeholder="请输入导出文件名 (默认 学生预约排行记录)" style="width:345px;" prefix-icon="el-icon-document" />
+      <el-input v-model="filename" :clearable="true" placeholder="请输入导出文件名 (默认 学生预约排队记录)" style="width:345px;" prefix-icon="el-icon-document" />
       <el-button :loading="downloadLoading" style="margin:0 0 10px 10px;" type="primary" icon="el-icon-document" @click="exportOrder">
         导出
       </el-button>
@@ -164,7 +164,7 @@ export default {
       try {
         FileSaver.saveAs(
           new Blob([wbout], { type: 'application/octet-stream' }),
-          (this.filename ? this.filename : '学生预约排行记录') + '.xlsx'
+          (this.filename ? this.filename : '学生预约排队记录') + '.xlsx'
         )
       } catch (e) {
         if (typeof console !== 'undefined') console.log(e, wbout)

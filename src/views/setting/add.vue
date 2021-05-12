@@ -114,6 +114,7 @@ export default {
               type: 'success'
             })
             this.$refs.form.resetFields()
+            this.$router.push('/setting/index')
           }).catch(error => {
             console.log(error)
             // this.$message({

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form ref="filterForm" :model="filterForm" :inline="true" class="filter-form">
-      <el-form-item prop="create_time_range">
+      <el-form-item prop="date">
         <el-date-picker
           v-model="filterForm.date"
           type="date"
@@ -14,9 +14,9 @@
           搜索
         </el-button>
       </el-form-item>
-      <!-- <el-form-item>
+      <el-form-item>
         <el-button @click="resetForm('filterForm')">重置</el-button>
-      </el-form-item> -->
+      </el-form-item>
     </el-form>
 
     <el-table id="export" v-loading="listLoading" :data="list" element-loading-text="Loading..." border fit highlight-current-row size="small">
@@ -40,9 +40,9 @@
           {{ scope.row.useful_nums }}
         </template>
       </el-table-column>
-      <el-table-column label="放号时间" align="center" width="100">
+      <el-table-column label="放号时间" align="center" width="200">
         <template slot-scope="scope">
-          {{ scope.row.can_apply }}
+          {{ scope.row.can_apply | formatCanApply }}
         </template>
       </el-table-column>
     </el-table>
@@ -52,12 +52,21 @@
 
 <script>
 import { fetchSettingList } from '@/api/order'
-
+import { parseTime } from '@/utils/index'
 import Pagination from '@/components/Pagination'
 
 export default {
   name: 'ExportExcel',
   components: { Pagination },
+  filters: {
+    formatCanApply(val) {
+      if (val) {
+        return parseTime(val)
+      } else {
+        return val
+      }
+    }
+  },
   data() {
     return {
       total: 0,
